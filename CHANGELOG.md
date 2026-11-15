@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.13.3] (2026-11-15)
+
+### Fixes
+
+- Matches upstream HACS archive layout with integration files at ZIP root.
+
 ## [3.13.2] (2026-11-15)
 
 ### Fixes
