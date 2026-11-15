@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 import voluptuous as vol
+from ttlock_ble import KeyboardPwdType, PasscodeEntry
 
 from custom_components.ttlock_ble.const import DOMAIN
 
@@ -45,3 +46,34 @@ async def test_delete_passcode_rejects_invalid_pin_before_ble(
             blocking=True,
         )
     mock_ttlock_connection.async_delete_passcode.assert_not_awaited()
+
+
+async def test_get_passcodes_returns_sensitive_service_response(
+    hass, setup_integration, mock_ttlock_connection
+) -> None:
+    mock_ttlock_connection.async_get_passcodes.return_value = [
+        PasscodeEntry(
+            passcode="123456",
+            pwd_type=KeyboardPwdType.PERMANENT,
+            start_date=None,
+            end_date=None,
+            cyclic_schedule=None,
+        )
+    ]
+    response = await hass.services.async_call(
+        DOMAIN,
+        "get_passcodes",
+        {"entity_id": _lock_entity(hass)},
+        blocking=True,
+        return_response=True,
+    )
+    assert response == {
+        "passcodes": [
+            {
+                "code": "123456",
+                "pwd_type": "PERMANENT",
+                "start_date": None,
+                "end_date": None,
+            }
+        ]
+    }

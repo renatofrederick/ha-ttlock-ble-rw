@@ -223,6 +223,9 @@
     },
     "passcode_type_invalid": {
       "message": "The passcode type is invalid."
+    },
+    "passcodes_not_read": {
+      "message": "Could not read passcodes from the lock. Make sure the lock is in range and try again."
     }
   },
   "selector": {

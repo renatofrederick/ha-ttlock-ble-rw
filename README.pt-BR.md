@@ -8,6 +8,7 @@ Este fork acrescenta comandos locais por Bluetooth para fechaduras administradas
 
 - `ttlock_ble.add_passcode`: cria senha de teclado com 4 a 9 dígitos. Use `PERMANENT` (padrão), ou `PERIOD` com `start_date` e `end_date` no formato `YYMMDDHHmm`.
 - `ttlock_ble.delete_passcode`: remove a senha exata de 4 a 9 dígitos. A remoção é irreversível na fechadura.
+- `ttlock_ble.get_passcodes`: lê senhas completas na resposta do serviço. A resposta é sensível e não é gravada no estado, histórico ou diagnósticos.
 
 Os serviços não gravam, mostram ou registram a senha no estado, histórico, diagnósticos ou logs do Home Assistant. Alguns firmwares TTLock aceitam prefixos menores: nunca crie senhas com prefixos em comum.
 

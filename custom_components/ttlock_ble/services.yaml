@@ -48,3 +48,14 @@ delete_passcode:
           options:
             - PERMANENT
             - PERIOD
+
+get_passcodes:
+  name: Get passcodes
+  description: Read clear keypad passcodes directly from an administered lock over BLE. The response contains sensitive data.
+  fields:
+    entity_id:
+      required: true
+      selector:
+        entity:
+          domain: lock
+          integration: ttlock_ble
