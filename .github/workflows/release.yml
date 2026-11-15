@@ -28,7 +28,7 @@ jobs:
           persist-credentials: false
 
       - name: Build HACS archive
-        run: (cd custom_components && zip -r ../ttlock_ble.zip ttlock_ble)
+        run: (cd custom_components/ttlock_ble && zip -r ../../ttlock_ble.zip .)
 
       - name: Read release version
         id: version
