@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, cast
 
 import voluptuous as vol
+from homeassistant.core import SupportsResponse
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.device_registry import async_get as async_get_device_registry
@@ -101,6 +102,31 @@ async def async_setup_passcode_services(hass: HomeAssistant) -> None:
             call.data["code"], pwd_type=_pwd_type(call.data["pwd_type"])
         )
 
+    async def handle_get_passcodes(
+        call: ServiceCall,
+    ) -> dict[str, list[dict[str, str | None]]]:
+        """Read clear passcodes from the selected administered lock."""
+        connection = _connection_for_lock_entity(hass, call.data["entity_id"])
+        passcodes = await connection.async_get_passcodes()
+        if passcodes is None:
+            raise HomeAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="passcodes_not_read",
+            )
+        return {
+            "passcodes": [
+                {
+                    "code": entry.passcode,
+                    "pwd_type": entry.pwd_type.name,
+                    "start_date": entry.start_date.isoformat()
+                    if entry.start_date
+                    else None,
+                    "end_date": entry.end_date.isoformat() if entry.end_date else None,
+                }
+                for entry in passcodes
+            ]
+        }
+
     base = {
         vol.Required("entity_id"): cv.entity_id,
         vol.Required("code"): _PASSCODE,
@@ -123,4 +149,11 @@ async def async_setup_passcode_services(hass: HomeAssistant) -> None:
         "delete_passcode",
         handle_delete_passcode,
         schema=vol.Schema(base),  # type: ignore[arg-type] # HA accepts voluptuous service schemas at runtime.
+    )
+    hass.services.async_register(
+        DOMAIN,
+        "get_passcodes",
+        handle_get_passcodes,  # type: ignore[arg-type] # HA accepts voluptuous service schemas at runtime.
+        schema=vol.Schema({vol.Required("entity_id"): cv.entity_id}),  # type: ignore[arg-type] # HA accepts voluptuous service schemas at runtime.
+        supports_response=SupportsResponse.ONLY,
     )

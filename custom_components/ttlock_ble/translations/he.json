@@ -223,6 +223,9 @@
     },
     "passcode_type_invalid": {
       "message": "סוג קוד הגישה אינו חוקי."
+    },
+    "passcodes_not_read": {
+      "message": "לא ניתן לקרוא קודי גישה מהמנעול. ודא שהמנעול בטווח ונסה שוב."
     }
   },
   "selector": {
