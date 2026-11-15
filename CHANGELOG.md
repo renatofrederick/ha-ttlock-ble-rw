@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.13.2] (2026-11-15)
+
+### Fixes
+
+- Corrects HACS release archive layout so `manifest.json` is found after installation.
+
 ## [3.13.1] (2026-11-15)
 
 ### Features
