@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.13.4] (2026-11-15)
+
+### Features
+
+- Adds `ttlock_ble.get_passcodes` with a sensitive service response, removing the need for a separate panel integration.
+
 ## [3.13.3] (2026-11-15)
 
 ### Fixes

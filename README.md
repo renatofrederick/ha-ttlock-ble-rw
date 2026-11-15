@@ -89,6 +89,7 @@ This fork adds two explicit local BLE services. They keep the `ttlock_ble` domai
 
 - `ttlock_ble.add_passcode` creates a 4–9 digit keypad passcode. Set `pwd_type` to `PERMANENT` (default), or `PERIOD` with `start_date` and `end_date` in `YYMMDDHHmm` format.
 - `ttlock_ble.delete_passcode` removes the exact 4–9 digit keypad passcode. This action is irreversible at the lock.
+- `ttlock_ble.get_passcodes` reads clear keypad passcodes in a service response (`passcodes`). This response is sensitive and is not stored in entity state, history or diagnostics.
 
 These services do not store, expose, log or add a passcode to Home Assistant state, history or diagnostics. Some TTLock firmware matches shorter passcode prefixes, so do not create passcodes that share a prefix. The fork is based on [upstream TTLock BLE v3.13.0](https://github.com/roquerodrigo/ha-ttlock-ble/releases/tag/v3.13.0); upstream changes are reviewed and merged manually.
 

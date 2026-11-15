@@ -223,6 +223,9 @@
     },
     "passcode_type_invalid": {
       "message": "O tipo de senha é inválido."
+    },
+    "passcodes_not_read": {
+      "message": "Não foi possível ler as senhas da fechadura. Verifique se ela está ao alcance e tente novamente."
     }
   },
   "selector": {
