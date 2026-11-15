@@ -38,6 +38,7 @@ if TYPE_CHECKING:
         CardEntry,
         DeviceInfo,
         FingerprintEntry,
+        KeyboardPwdType,
         LockEvent,
         LockSound,
         LockState,
@@ -338,6 +339,31 @@ class TtlockBleConnection:
                 )
                 return None
 
+    async def async_add_passcode(
+        self,
+        code: str,
+        *,
+        pwd_type: KeyboardPwdType,
+        start_date: str,
+        end_date: str,
+    ) -> None:
+        """Create one keypad passcode over the live BLE connection."""
+        await self._async_run_passcode_command(
+            "add_passcode",
+            code,
+            pwd_type=pwd_type,
+            start_date=start_date,
+            end_date=end_date,
+        )
+
+    async def async_delete_passcode(
+        self, code: str, *, pwd_type: KeyboardPwdType
+    ) -> None:
+        """Delete one keypad passcode over the live BLE connection."""
+        await self._async_run_passcode_command(
+            "delete_passcode", code, pwd_type=pwd_type
+        )
+
     async def async_calibrate_time(self, local_time: datetime) -> bool:
         """
         Write `local_time` to the lock's clock. Reports whether it landed.
@@ -492,6 +518,44 @@ class TtlockBleConnection:
                 await self._async_disconnect_locked()
                 msg = f"Lock {self._key.lockMac} failed to {action}: {exc}"
                 raise TTLockError(msg) from exc
+
+    async def _async_run_passcode_command(
+        self,
+        action: str,
+        code: str,
+        *,
+        pwd_type: KeyboardPwdType,
+        start_date: str = "",
+        end_date: str = "",
+    ) -> None:
+        """Run a validated passcode mutation and close a failed BLE session."""
+        async with self._lock:
+            client = await self._async_ensure_connected_locked()
+            if client is None:
+                msg = f"Lock {self._key.lockMac} not reachable via Bluetooth"
+                raise TTLockError(msg)
+            try:
+                if action == "add_passcode":
+                    await client.add_passcode(
+                        code,
+                        pwd_type=pwd_type,
+                        start_date=start_date,
+                        end_date=end_date,
+                    )
+                else:
+                    await client.delete_passcode(code, pwd_type=pwd_type)
+            except TTLockError:
+                await self._async_disconnect_locked()
+                msg = f"Lock {self._key.lockMac} failed to {action}"
+                raise TTLockError(msg) from None
+            except TimeoutError:
+                await self._async_disconnect_locked()
+                msg = f"Lock {self._key.lockMac} timed out responding to {action}"
+                raise TTLockError(msg) from None
+            except Exception:  # noqa: BLE001
+                await self._async_disconnect_locked()
+                msg = f"Lock {self._key.lockMac} failed to {action}"
+                raise TTLockError(msg) from None
 
     async def _async_ensure_connected_locked(self) -> TTLockClient | None:
         """

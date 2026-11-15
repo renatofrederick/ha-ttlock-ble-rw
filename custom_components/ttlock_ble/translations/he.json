@@ -208,6 +208,21 @@
   "exceptions": {
     "credentials_not_read": {
       "message": "לא ניתן לקרוא את אמצעי הגישה של {lock}. ודאו שהמנעול בטווח ונסו שוב."
+    },
+    "passcode_invalid_entity": {
+      "message": "הישות {entity_id} אינה מנעול TTLock BLE."
+    },
+    "passcode_device_not_found": {
+      "message": "לא נמצא התקן TTLock BLE עבור {entity_id}."
+    },
+    "passcode_lock_not_found": {
+      "message": "לא נמצא מנעול TTLock BLE עבור {entity_id}."
+    },
+    "passcode_connection_not_found": {
+      "message": "לא נמצא חיבור TTLock BLE פעיל עבור {entity_id}."
+    },
+    "passcode_type_invalid": {
+      "message": "סוג קוד הגישה אינו חוקי."
     }
   },
   "selector": {

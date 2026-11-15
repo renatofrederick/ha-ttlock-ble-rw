@@ -1,9 +1,5 @@
 name: Release
 
-# Gated on a successful CI run rather than on the push itself. The
-# `workflow_run.event == 'push'` half of the condition is what stops a pull
-# request with green CI from cutting a release.
-
 on:
   workflow_run:
     workflows: [CI]
@@ -11,33 +7,34 @@ on:
     branches: [main]
 
 concurrency:
-  group: release
+  group: release-${{ github.event.workflow_run.head_sha }}
   cancel-in-progress: false
 
-permissions: {}
+permissions:
+  contents: write
 
 jobs:
   release:
-    name: Release
     if: >-
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: write
-      pull-requests: write
+    timeout-minutes: 10
     steps:
-      - name: Release
-        id: release
-        uses: roquerodrigo/release-autopilot@latest
+      - name: Check out tested revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ secrets.RELEASE_TOKEN }}
-          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
 
-      - name: Attach the release asset
-        if: steps.release.outputs.released == 'true'
-        uses: roquerodrigo/home-assistant-autopilot@latest
-        with:
-          command: publish
-          tag: ${{ steps.release.outputs.tag }}
+      - name: Build HACS archive
+        run: zip -r ttlock_ble.zip custom_components
+
+      - name: Read release version
+        id: version
+        run: echo "tag=v$(jq -r .version custom_components/ttlock_ble/manifest.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Publish HACS release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ steps.version.outputs.tag }}" ttlock_ble.zip --target "${{ github.event.workflow_run.head_sha }}" --generate-notes

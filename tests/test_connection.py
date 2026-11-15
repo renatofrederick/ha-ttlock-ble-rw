@@ -357,6 +357,40 @@ async def test_unlock_happy(
     mock_ttlock_client.unlock.assert_awaited_once()
 
 
+async def test_passcode_mutations_use_the_live_client(
+    hass, sample_virtual_key, mock_ble_resolver, mock_ttlock_client
+) -> None:
+    conn = TtlockBleConnection(hass, sample_virtual_key)
+    pwd_type = object()
+    await conn.async_add_passcode(
+        "1234", pwd_type=pwd_type, start_date="2601010000", end_date="2612312359"
+    )
+    await conn.async_delete_passcode("1234", pwd_type=pwd_type)
+    mock_ttlock_client.add_passcode.assert_awaited_once_with(
+        "1234", pwd_type=pwd_type, start_date="2601010000", end_date="2612312359"
+    )
+    mock_ttlock_client.delete_passcode.assert_awaited_once_with(
+        "1234", pwd_type=pwd_type
+    )
+
+
+async def test_passcode_mutation_does_not_echo_passcode_in_sdk_error(
+    hass, sample_virtual_key, mock_ble_resolver, mock_ttlock_client
+) -> None:
+    mock_ttlock_client.add_passcode.side_effect = TTLockError("Passcode 1234 rejected")
+    conn = TtlockBleConnection(hass, sample_virtual_key)
+    with pytest.raises(TTLockError, match="failed to add_passcode") as error:
+        await conn.async_add_passcode(
+            "1234",
+            pwd_type=object(),
+            start_date="2601010000",
+            end_date="2612312359",
+        )
+    assert "1234" not in str(error.value)
+    assert error.value.__suppress_context__
+    mock_ttlock_client.disconnect.assert_awaited_once()
+
+
 async def test_lock_raises_when_device_missing(
     hass,
     sample_virtual_key,

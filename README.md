@@ -1,11 +1,13 @@
 # Home Assistant TTLock BLE
 
-[![CI](https://github.com/roquerodrigo/ha-ttlock-ble/actions/workflows/ci.yml/badge.svg)](https://github.com/roquerodrigo/ha-ttlock-ble/actions/workflows/ci.yml)
+[Português (Brasil)](README.pt-BR.md)
+
+[![CI](https://github.com/renatofrederick/ha-ttlock-ble-rw/actions/workflows/ci.yml/badge.svg)](https://github.com/renatofrederick/ha-ttlock-ble-rw/actions/workflows/ci.yml)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors&logoColor=white&style=for-the-badge)](https://github.com/sponsors/roquerodrigo)
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=roquerodrigo&repository=ha-ttlock-ble&category=integration)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=renatofrederick&repository=ha-ttlock-ble-rw&category=integration)
 
 ---
 
@@ -80,6 +82,15 @@ Every fingerprint, card and passcode the lock is known to hold gets a `text` ent
 The lock lists its fingerprints and cards completely, so one it no longer lists loses its entity and its name. Passcodes work differently: the lock cannot list a passcode the official app generated offline until it has been used at the keypad. They are therefore also learned from the operation log, which names the code on every use, change, deletion and expiry: a passcode is added the first time it is used, keeps its name when it is changed, and is removed when the log records its deletion or expiry, or that every passcode was cleared. A single-use passcode stays until one of those records arrives. The code itself is never stored in clear, nor shown in an entity, a state or an attribute.
 
 Names and the known credentials are kept across restarts. The lists say nothing about cyclic (day-of-week or time-range) restrictions, so a credential shown here may still be limited to certain days or hours.
+
+### Passcode services
+
+This fork adds two explicit local BLE services. They keep the `ttlock_ble` domain and use the existing lock entity, so current integration configuration stays compatible.
+
+- `ttlock_ble.add_passcode` creates a 4–9 digit keypad passcode. Set `pwd_type` to `PERMANENT` (default), or `PERIOD` with `start_date` and `end_date` in `YYMMDDHHmm` format.
+- `ttlock_ble.delete_passcode` removes the exact 4–9 digit keypad passcode. This action is irreversible at the lock.
+
+These services do not store, expose, log or add a passcode to Home Assistant state, history or diagnostics. Some TTLock firmware matches shorter passcode prefixes, so do not create passcodes that share a prefix. The fork is based on [upstream TTLock BLE v3.13.0](https://github.com/roquerodrigo/ha-ttlock-ble/releases/tag/v3.13.0); upstream changes are reviewed and merged manually.
 
 ## Installation
 

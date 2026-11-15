@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.13.0-rw.1] (2026-11-15)
+
+### Features
+
+- Adds validated local BLE services for creating and deleting keypad passcodes.
+- Preserves upstream v3.13.0 behaviour and configuration compatibility.
+
+### Safety
+
+- Passcodes are validated before a BLE command session opens and are never logged or stored by these services.
+- Deletion requires the exact passcode and is irreversible at the lock.
+
 ## [3.13.0](https://github.com/roquerodrigo/ha-ttlock-ble/compare/v3.12.2...v3.13.0) (2026-11-14)
 
 Home Assistant users are now named on lock and unlock records, new connection quality sensors were added, and commands complete faster.

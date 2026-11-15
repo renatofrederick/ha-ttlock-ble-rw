@@ -27,6 +27,7 @@ from .credential_store import async_get_credential_store
 from .data import TtlockBleData, TtlockBleLogCursor
 from .device_description_store import async_get_device_description_store
 from .passcode_ledger import TtlockBlePasscodeLedger
+from .passcode_services import async_setup_passcode_services
 from .record_store import async_get_record_store
 
 if TYPE_CHECKING:
@@ -99,6 +100,7 @@ async def async_setup_entry(
     entry: TtlockBleConfigEntry,
 ) -> bool:
     """Set up TTLock BLE from a config entry."""
+    await async_setup_passcode_services(hass)
     config = cast("TtlockBleConfigData", entry.data)
     _async_prune_stale_devices(hass, entry, config)
     stored_keys: list[TtlockBleStoredKey] = list(config["keys"])

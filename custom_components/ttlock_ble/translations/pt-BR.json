@@ -208,6 +208,21 @@
   "exceptions": {
     "credentials_not_read": {
       "message": "Não foi possível ler as credenciais de {lock}. Verifique se a fechadura está ao alcance e tente novamente."
+    },
+    "passcode_invalid_entity": {
+      "message": "A entidade {entity_id} não é uma fechadura TTLock BLE."
+    },
+    "passcode_device_not_found": {
+      "message": "Nenhum dispositivo TTLock BLE foi encontrado para {entity_id}."
+    },
+    "passcode_lock_not_found": {
+      "message": "Nenhuma fechadura TTLock BLE foi encontrada para {entity_id}."
+    },
+    "passcode_connection_not_found": {
+      "message": "Nenhuma conexão TTLock BLE ativa foi encontrada para {entity_id}."
+    },
+    "passcode_type_invalid": {
+      "message": "O tipo de senha é inválido."
     }
   },
   "selector": {

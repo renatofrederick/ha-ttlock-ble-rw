@@ -1,0 +1,50 @@
+add_passcode:
+  name: Add passcode
+  description: Create one keypad passcode directly on an administered lock over BLE.
+  fields:
+    entity_id:
+      required: true
+      selector:
+        entity:
+          domain: lock
+          integration: ttlock_ble
+    code:
+      required: true
+      selector:
+        text:
+    pwd_type:
+      default: PERMANENT
+      selector:
+        select:
+          options:
+            - PERMANENT
+            - PERIOD
+    start_date:
+      description: YYMMDDHHmm; used for PERIOD passcodes.
+      selector:
+        text:
+    end_date:
+      description: YYMMDDHHmm; used for PERIOD passcodes.
+      selector:
+        text:
+delete_passcode:
+  name: Delete passcode
+  description: Delete one keypad passcode directly from an administered lock over BLE.
+  fields:
+    entity_id:
+      required: true
+      selector:
+        entity:
+          domain: lock
+          integration: ttlock_ble
+    code:
+      required: true
+      selector:
+        text:
+    pwd_type:
+      default: PERMANENT
+      selector:
+        select:
+          options:
+            - PERMANENT
+            - PERIOD

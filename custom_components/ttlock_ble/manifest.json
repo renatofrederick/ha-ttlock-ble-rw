@@ -8,17 +8,17 @@
     }
   ],
   "codeowners": [
-    "@roquerodrigo"
+    "@renatofrederick"
   ],
   "config_flow": true,
   "dependencies": [
     "bluetooth"
   ],
-  "documentation": "https://github.com/roquerodrigo/ha-ttlock-ble",
+  "documentation": "https://github.com/renatofrederick/ha-ttlock-ble-rw",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/roquerodrigo/ha-ttlock-ble/issues",
+  "issue_tracker": "https://github.com/renatofrederick/ha-ttlock-ble-rw/issues",
   "requirements": [
     "ttlock-ble==0.3.5"
   ],
-  "version": "3.13.0"
+  "version": "3.13.0-rw.1"
 }

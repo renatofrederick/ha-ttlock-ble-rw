@@ -208,6 +208,21 @@
   "exceptions": {
     "credentials_not_read": {
       "message": "Could not read the credentials of {lock}. Make sure the lock is in range and try again."
+    },
+    "passcode_invalid_entity": {
+      "message": "Entity {entity_id} is not a TTLock BLE lock."
+    },
+    "passcode_device_not_found": {
+      "message": "No TTLock BLE device was found for {entity_id}."
+    },
+    "passcode_lock_not_found": {
+      "message": "No TTLock BLE lock was found for {entity_id}."
+    },
+    "passcode_connection_not_found": {
+      "message": "No active TTLock BLE connection was found for {entity_id}."
+    },
+    "passcode_type_invalid": {
+      "message": "The passcode type is invalid."
     }
   },
   "selector": {
