@@ -13,6 +13,8 @@
 
 Local control of TTLock smart locks over Bluetooth, for [Home Assistant](https://www.home-assistant.io/). Lock / unlock, battery level and real-time push events flow over BLE — no cloud round-trip on every operation. Built on the sibling Python SDK [`ttlock-ble`](https://github.com/roquerodrigo/ttlock-ble).
 
+This fork's release version is maintained independently. Version `3.13.5` is based on upstream release `v3.13.0` plus upstream `main` through commit [`2cbec04`](https://github.com/roquerodrigo/ha-ttlock-ble/commit/2cbec0463ee1bbc7bd409ff60ba993b81adbedbb), and includes the passcode read/create/revoke services documented below. Fork release tags must be unique and increase independently of upstream tags.
+
 ## Features
 
 - **Local BLE control** — lock, unlock, and state queries run over the lock's BLE link; the TTLock cloud is only contacted once at setup to download per-lock keys.
@@ -91,7 +93,7 @@ This fork adds two explicit local BLE services. They keep the `ttlock_ble` domai
 - `ttlock_ble.delete_passcode` removes the exact 4–9 digit keypad passcode. This action is irreversible at the lock.
 - `ttlock_ble.get_passcodes` reads clear keypad passcodes in a service response (`passcodes`). This response is sensitive and is not stored in entity state, history or diagnostics.
 
-These services do not store, expose, log or add a passcode to Home Assistant state, history or diagnostics. Some TTLock firmware matches shorter passcode prefixes, so do not create passcodes that share a prefix. The fork is based on [upstream TTLock BLE v3.13.0](https://github.com/roquerodrigo/ha-ttlock-ble/releases/tag/v3.13.0); upstream changes are reviewed and merged manually.
+These services do not store, expose, log or add a passcode to Home Assistant state, history or diagnostics. Some TTLock firmware matches shorter passcode prefixes, so do not create passcodes that share a prefix. Upstream changes are reviewed and merged manually.
 
 ## Installation
 

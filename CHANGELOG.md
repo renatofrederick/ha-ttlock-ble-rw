@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.13.5] - Unreleased
+
+### Upstream sync
+
+- Sync upstream `main` through `2cbec0463ee1bbc7bd409ff60ba993b81adbedbb` (upstream release baseline `v3.13.0`).
+- Keep fork release numbering independent; this version includes the existing local passcode read/create/revoke services.
+
 ## [3.13.4] (2026-11-15)
 
 ### Features

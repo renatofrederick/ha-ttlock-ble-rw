@@ -1,6 +1,6 @@
 # TTLock BLE RW para Home Assistant
 
-Fork público de `roquerodrigo/ha-ttlock-ble`, baseado na versão upstream 3.13.0. Mantém domínio `ttlock_ble`, entidades e configuração existentes. A documentação técnica completa está em [English](README.md).
+Fork público de `roquerodrigo/ha-ttlock-ble`, com versão independente. A versão `3.13.5` usa como base a release upstream `v3.13.0` mais as alterações de `upstream/main` até o commit [`2cbec04`](https://github.com/roquerodrigo/ha-ttlock-ble/commit/2cbec0463ee1bbc7bd409ff60ba993b81adbedbb), e inclui serviços para ler, criar e revogar senhas. Mantém domínio `ttlock_ble`, entidades e configuração existentes. A documentação técnica completa está em [English](README.md).
 
 ## Serviços de senha
 
