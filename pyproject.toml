@@ -1,6 +1,6 @@
 [project]
 name = "ha-ttlock-ble"
-version = "3.13.4"
+version = "3.13.5"
 description = "Home Assistant integration for DLock-XP / TTLock smart locks (BLE)"
 requires-python = ">=3.14.2"
 
@@ -10,7 +10,7 @@ package = false
 [dependency-groups]
 dev = [
     "aiousbwatcher==1.1.2",
-    "bleak==3.0.2",
+    "bleak==3.1.0",
     "bluetooth-adapters==2.4.0",
     "colorlog==6.12.0",
     "dbus-fast==5.2.0",
@@ -22,7 +22,7 @@ dev = [
     "ttlock-ble==0.3.5",
 ]
 lint = [
-    "ruff==0.17.4",
+    "ruff==0.17.5",
     "mypy==2.4.1",
 ]
 
